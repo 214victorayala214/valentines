@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            text-align: center;
+            padding: 2rem;
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        a {
+            color: white;
+            text-decoration: underline;
+            margin-top: 20px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <p>Opening Messages...</p>
+        <p><small>If nothing happens, <a href="#" id="manualLink">click here</a></small></p>
+    </div>
+
+    <script>
+        // Get code parameter from URL (optional for future use)
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+
+        // Phone number and message
+        const phoneNumber = '4692744638';
+        const message = 'I love you';
+        
+        // Encode the message for URL
+        const encodedMessage = encodeURIComponent(message);
+        
+        // Try different SMS formats for better compatibility
+        const smsLinks = [
+            `sms:${phoneNumber}?body=${encodedMessage}`,  // Standard format
+            `sms:${phoneNumber}&body=${encodedMessage}`,  // Alternative
+            `sms://${phoneNumber}?body=${encodedMessage}` // With protocol
+        ];
+
+        // Set the manual link
+        document.getElementById('manualLink').href = smsLinks[0];
+
+        // Attempt automatic redirect
+        function tryRedirect() {
+            // Try the first format
+            window.location.href = smsLinks[0];
+        }
+
+        // Redirect immediately
+        setTimeout(tryRedirect, 500);
+    </script>
+</body>
+</html>
